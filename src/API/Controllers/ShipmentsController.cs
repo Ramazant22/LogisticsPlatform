@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,11 +30,11 @@ public class ShipmentsController : TenantControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateShipment([FromBody] CreateShipmentCommand command)
+    public async Task<IActionResult> CreateShipment([FromBody] CreateShipmentCommand command, CancellationToken cancellationToken)
     {
         if (!TryGetTenantId(out var tenantId)) return Forbid();
         command.TenantId = tenantId;
-        var shipmentId = await _mediator.Send(command);
+        var shipmentId = await _mediator.Send(command, cancellationToken);
         await InvalidateDashboardAsync(tenantId, cancellationToken);
         return Ok(new { ShipmentId = shipmentId });
     }
@@ -49,7 +50,6 @@ public class ShipmentsController : TenantControllerBase
         return Ok(new { Message = "Sevkiyat başlatıldı." });
     }
 
-    // Sorun çıkaran Action ve VehicleId alanları kaldırılıp, yeni NewStatus yapısına uyarlandı
     [HttpPost("update-status")]
     public async Task<IActionResult> UpdateStatus([FromBody] UpdateShipmentStatusCommand command)
     {
