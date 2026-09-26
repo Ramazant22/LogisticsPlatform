@@ -1,0 +1,33 @@
+name: logistics-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    env:
+      Jwt__Key: ci-jwt-key-at-least-thirty-two-characters-long
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet restore LogisticsPlatform.slnx
+      - run: dotnet build LogisticsPlatform.slnx --no-restore --configuration Release
+      - run: dotnet test tests/LogisticsPlatform.API.Tests/LogisticsPlatform.API.Tests.csproj --no-restore --configuration Release
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npx tsc --noEmit

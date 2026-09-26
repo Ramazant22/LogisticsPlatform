@@ -1,0 +1,10 @@
+.git
+.vs
+**/bin
+**/obj
+frontend/node_modules
+frontend/.next
+ai_service/venv
+ai_service/__pycache__
+**/__pycache__
+*.pyc

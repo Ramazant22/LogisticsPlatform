@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.25" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.25" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks\LogisticsPlatform.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\Modules\Identity\LogisticsPlatform.Modules.Identity.csproj" />
+    <ProjectReference Include="..\Modules\Tenancy\LogisticsPlatform.Modules.Tenancy.csproj" />
+    <ProjectReference Include="..\Modules\Fleet\LogisticsPlatform.Modules.Fleet.csproj" />
+    <ProjectReference Include="..\Modules\Shipment\LogisticsPlatform.Modules.Shipment.csproj" />
+    <ProjectReference Include="..\Modules\Drivers\LogisticsPlatform.Modules.Drivers.csproj" />
+    <ProjectReference Include="..\Modules\Customers\LogisticsPlatform.Modules.Customers.csproj" />
+    <ProjectReference Include="..\Modules\Orders\LogisticsPlatform.Modules.Orders.csproj" />
+    <ProjectReference Include="..\Modules\Tracking\LogisticsPlatform.Modules.Tracking.csproj" />
+    <ProjectReference Include="..\Modules\Billing\LogisticsPlatform.Modules.Billing.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\LogisticsPlatform.Modules.Notifications.csproj" />
+    <ProjectReference Include="..\Modules\Routes\LogisticsPlatform.Modules.Routes.csproj" />
+    <ProjectReference Include="..\Modules\Reporting\LogisticsPlatform.Modules.Reporting.csproj" />
+  </ItemGroup>
+
+</Project>

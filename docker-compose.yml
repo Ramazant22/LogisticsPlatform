@@ -1,0 +1,94 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: logistics_db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_SA_PASSWORD:?SQL_SA_PASSWORD must be set}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P $$SA_PASSWORD -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  api:
+    image: logisticsplatform-api
+    build:
+      context: .
+      dockerfile: src/API/Dockerfile
+    container_name: logistics_api
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      ai:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    ports:
+      - "5243:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=LogisticsPlatformDb;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True;
+      - AI__ServiceUrl=http://ai:8000/api/ask
+      - Jwt__Key=${JWT_KEY:?JWT_KEY must be set}
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Username=logistics
+      - RabbitMq__Password=${RABBITMQ_PASSWORD:-logistics-dev-password}
+      - Redis__Connection=redis:6379
+      - Database__ApplyMigrationsOnStartup=true
+      - Database__SeedDemoData=${SEED_DEMO_DATA:-false}
+      - Seed__AdminPassword=${SEED_ADMIN_PASSWORD:-ChangeMe123!}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+
+  ai:
+    build:
+      context: ./ai_service
+    container_name: logistics_ai
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:?OPENAI_API_KEY must be set}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-3.5-turbo}
+      - DATABASE_URI=mssql+pyodbc://sa:${SQL_SA_PASSWORD}@sqlserver:1433/LogisticsPlatformDb?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: logistics_rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=logistics
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:-logistics-dev-password}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  redis:
+    image: redis:7-alpine
+    container_name: logistics_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+volumes:
+  sqlserver_data:

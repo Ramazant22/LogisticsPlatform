@@ -1,0 +1,1 @@
+﻿using Microsoft.EntityFrameworkCore; using LogisticsPlatform.Modules.Customers.Domain.Entities; namespace LogisticsPlatform.Modules.Customers.Infrastructure { public class CustomersDbContext : DbContext { public CustomersDbContext(DbContextOptions<CustomersDbContext> options) : base(options) {} public DbSet<Customer> Customers { get; set; } } }

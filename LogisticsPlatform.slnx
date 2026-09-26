@@ -1,0 +1,43 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/API/">
+    <Project Path="src/API/LogisticsPlatform.API.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/LogisticsPlatform.BuildingBlocks.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Billing/">
+    <Project Path="src/Modules/Billing/LogisticsPlatform.Modules.Billing.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Customers/">
+    <Project Path="src/Modules/Customers/LogisticsPlatform.Modules.Customers.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Drivers/">
+    <Project Path="src/Modules/Drivers/LogisticsPlatform.Modules.Drivers.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Fleet/">
+    <Project Path="src/Modules/Fleet/LogisticsPlatform.Modules.Fleet.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Identity/">
+    <Project Path="src/Modules/Identity/LogisticsPlatform.Modules.Identity.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Notifications/">
+    <Project Path="src/Modules/Notifications/LogisticsPlatform.Modules.Notifications.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Orders/">
+    <Project Path="src/Modules/Orders/LogisticsPlatform.Modules.Orders.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Shipment/">
+    <Project Path="src/Modules/Shipment/LogisticsPlatform.Modules.Shipment.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Tenancy/">
+    <Project Path="src/Modules/Tenancy/LogisticsPlatform.Modules.Tenancy.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Tracking/">
+    <Project Path="src/Modules/Tracking/LogisticsPlatform.Modules.Tracking.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LogisticsPlatform.API.Tests/LogisticsPlatform.API.Tests.csproj" />
+  </Folder>
+</Solution>
