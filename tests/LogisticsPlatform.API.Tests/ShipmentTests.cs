@@ -1,6 +1,6 @@
 using LogisticsPlatform.Modules.Shipment.Domain;
 using Xunit;
-
+using System;
 namespace LogisticsPlatform.API.Tests;
 
 public class ShipmentTests
